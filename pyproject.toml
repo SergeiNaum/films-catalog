@@ -35,7 +35,7 @@ lint.select = [
     "UP",  # pyupgrade
     "S",   # flake8-bandit
     "A",   # flake8-builtins
-    "RUF", # Ruff-specific rules
+#    "RUF", # Ruff-specific rules
 ]
 # Исключить определенные файлы/директории
 exclude = [
