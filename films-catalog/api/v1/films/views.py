@@ -35,3 +35,23 @@ async def get_film_details(
 async def create_film(film_create: FilmSchemaCreate) -> FilmSchema:
     obj = film_storage.create(film_create)
     return obj
+
+
+@router.delete(
+    "/delete/{movie_slug}/",
+    status_code=status.HTTP_204_NO_CONTENT,
+    responses={
+        status.HTTP_404_NOT_FOUND: {
+            "description": "Film not found",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": "Film 'slug' not found",
+                    },
+                },
+            },
+        },
+    },
+)
+async def delete_film(film: Annotated[FilmSchema, Depends(get_film_by_slug)]) -> None:
+    film_storage.delete(film)
