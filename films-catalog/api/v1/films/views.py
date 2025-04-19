@@ -1,12 +1,10 @@
-import random
 from typing import Annotated
 
-from annotated_types import Len
-from fastapi import APIRouter, status, Depends
-
-from api.v1.films.dependencies.utils import get_film_by_slug
-from api.v1.films.crud import film_storage
+from fastapi import APIRouter, Depends, status
 from schemas.film import FilmSchema, FilmSchemaCreate
+
+from api.v1.films.crud import film_storage
+from api.v1.films.dependencies.utils import get_film_by_slug
 
 router = APIRouter(
     prefix="/films",

@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
+from schemas.film import FilmSchema
 
 from api.v1.films.crud import film_storage
-from schemas.film import FilmSchema
 
 
 def get_film_by_slug(slug: str) -> FilmSchema | None:

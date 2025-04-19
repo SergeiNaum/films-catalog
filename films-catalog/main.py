@@ -1,10 +1,9 @@
 import uvicorn
+from api import router as api_router
 from fastapi import (
     FastAPI,
     Request,
 )
-
-from api import router as api_router
 
 app = FastAPI(
     title="Films App",
