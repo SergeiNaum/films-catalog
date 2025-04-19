@@ -16,6 +16,12 @@ class FilmStorage(BaseModel):
         self.slug_to_film[film.slug] = film
         return film
 
+    def delete_by_slug(self, slug: str) -> FilmSchema | None:
+        self.slug_to_film.pop(slug, None)
+
+    def delete(self, film_schema: FilmSchema):
+        self.delete_by_slug(slug=film_schema.slug)
+
 
 film_storage = FilmStorage()
 
@@ -31,7 +37,7 @@ film_storage.create(
 )
 
 film_storage.create(
-    FilmSchema(
+    FilmSchemaCreate(
         slug="Aliens",
         title="Aliens",
         description="Ellen Ripley has been in stasis for 57 years aboard a shuttlecraft after destroying her spaceship,"
