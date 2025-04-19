@@ -27,13 +27,13 @@ class FilmStorage(BaseModel):
         film_schema: FilmSchema,
         film_schema_in: FilmSchemaUpdate,
     ) -> FilmSchema:
-        # updated_short_url = short_url.model_copy(
-        #     update=short_url_in.model_dump(),
+        # updated_film = film_schema.model_copy(
+        #     update=film_schema_in.model_dump(),
         # )
-        # self.slug_to_short_url[updated_short_url.slug] = updated_short_url
+        # self.slug_to_film[updated_film.slug] = updated_film
         for field_name, value in film_schema_in:
             setattr(film_schema, field_name, value)
-        # self.slug_to_short_url[short_url.slug] = short_url
+        # self.slug_to_film[film_schema.slug] = short_url
         return film_schema
 
 
