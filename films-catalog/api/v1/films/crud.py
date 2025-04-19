@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from schemas.film import FilmSchema, FilmSchemaCreate
+from schemas.film import FilmSchema, FilmSchemaCreate, FilmSchemaUpdate
 
 
 class FilmStorage(BaseModel):
@@ -21,6 +21,20 @@ class FilmStorage(BaseModel):
 
     def delete(self, film_schema: FilmSchema):
         self.delete_by_slug(slug=film_schema.slug)
+
+    def update(
+        self,
+        film_schema: FilmSchema,
+        film_schema_in: FilmSchemaUpdate,
+    ) -> FilmSchema:
+        # updated_short_url = short_url.model_copy(
+        #     update=short_url_in.model_dump(),
+        # )
+        # self.slug_to_short_url[updated_short_url.slug] = updated_short_url
+        for field_name, value in film_schema_in:
+            setattr(film_schema, field_name, value)
+        # self.slug_to_short_url[short_url.slug] = short_url
+        return film_schema
 
 
 film_storage = FilmStorage()
