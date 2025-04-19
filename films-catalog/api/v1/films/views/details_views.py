@@ -6,6 +6,9 @@ from schemas.film import FilmSchema
 from api.v1.films.crud import film_storage
 from api.v1.films.dependencies.utils import get_film_by_slug
 
+FILM_BY_SLUG = Annotated[FilmSchema, Depends(get_film_by_slug)]
+
+
 router = APIRouter(
     prefix="/{movie_slug}",
     responses={
@@ -24,15 +27,10 @@ router = APIRouter(
 
 
 @router.get("/")
-async def get_film_details(
-    movie: Annotated[
-        get_film_by_slug,
-        Depends(get_film_by_slug),
-    ],
-) -> FilmSchema | None:
-    return movie
+async def get_film_details(film: FILM_BY_SLUG) -> FilmSchema | None:
+    return film
 
 
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_film(film: Annotated[FilmSchema, Depends(get_film_by_slug)]) -> None:
+async def delete_film(film: FILM_BY_SLUG) -> None:
     film_storage.delete(film)
