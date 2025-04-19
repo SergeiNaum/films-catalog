@@ -6,4 +6,56 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.115.12",
+    "pre-commit>=4.2.0",
+    "ruff>=0.11.6",
 ]
+
+[tool.ruff]
+# Поддерживаемые версии Python
+target-version = "py313"
+
+# Максимальная длина строки
+line-length = 120
+
+# Включаемые правила
+lint.select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "W",   # pycodestyle warnings
+    "C90", # mccabe
+    "N",   # pep8-naming
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "DTZ", # flake8-datetimez
+    "T10", # flake8-debugger
+    "ISC", # flake8-implicit-str-concat
+    "PIE", # flake8-pie
+    "Q",   # flake8-quotes
+    "UP",  # pyupgrade
+    "S",   # flake8-bandit
+    "A",   # flake8-builtins
+    "RUF", # Ruff-specific rules
+]
+# Исключить определенные файлы/директории
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "env",
+    "__pycache__",
+    "build",
+    "dist",
+]
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # Игнорировать неиспользуемые импорты в init файлах
+
+[tool.ruff.lint.isort]
+known-first-party = ["films-catalog"]
+
+[tool.ruff.format]
+# Всегда использовать кавычки одного типа
+quote-style = "double"
+# Отступы - 4 пробела
+indent-style = "space"
+line-ending = "auto"
