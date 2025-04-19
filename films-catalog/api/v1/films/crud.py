@@ -1,5 +1,10 @@
 from pydantic import BaseModel, Field
-from schemas.film import FilmSchema, FilmSchemaCreate, FilmSchemaUpdate
+from schemas.film import (
+    FilmSchema,
+    FilmSchemaCreate,
+    FilmSchemaPartialUpdate,
+    FilmSchemaUpdate,
+)
 
 
 class FilmStorage(BaseModel):
@@ -34,6 +39,16 @@ class FilmStorage(BaseModel):
         for field_name, value in film_schema_in:
             setattr(film_schema, field_name, value)
         # self.slug_to_film[film_schema.slug] = short_url
+        return film_schema
+
+    def partial_update(
+        self,
+        film_schema: FilmSchema,
+        film_schema_in: FilmSchemaPartialUpdate,
+    ) -> FilmSchema:
+        for field_name, value in film_schema_in.model_dump(exclude_unset=True).items():
+            setattr(film_schema, field_name, value)
+
         return film_schema
 
 
