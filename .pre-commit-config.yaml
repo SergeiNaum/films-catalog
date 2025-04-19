@@ -1,0 +1,13 @@
+repos:
+- repo: local
+  hooks:
+  - id: ruff
+    name: Запуск ruff с --fix
+    entry: ruff check --fix
+    language: system
+    files: \.py$
+  - id: ruff-format
+    name: Запуск ruff-format
+    entry: ruff format
+    language: system
+    files: \.py$
