@@ -1,7 +1,12 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
-from schemas.film import FilmSchema, FilmSchemaPartialUpdate, FilmSchemaUpdate
+from schemas.film import (
+    FilmSchema,
+    FilmSchemaPartialUpdate,
+    FilmSchemaRead,
+    FilmSchemaUpdate,
+)
 
 from api.v1.films.crud import film_storage
 from api.v1.films.dependencies.utils import get_film_by_slug
@@ -26,7 +31,10 @@ router = APIRouter(
 )
 
 
-@router.get("/")
+@router.get(
+    "/",
+    response_model=FilmSchemaRead,
+)
 async def get_film_details(film: FILM_BY_SLUG) -> FilmSchema | None:
     return film
 
@@ -36,11 +44,17 @@ async def delete_film(film: FILM_BY_SLUG) -> None:
     film_storage.delete(film)
 
 
-@router.put("/")
+@router.put(
+    "/",
+    response_model=FilmSchemaRead,
+)
 async def update_film(film: FILM_BY_SLUG, film_in: FilmSchemaUpdate) -> FilmSchema:
     return film_storage.update(film_schema=film, film_schema_in=film_in)
 
 
-@router.patch("/")
+@router.patch(
+    "/",
+    response_model=FilmSchemaRead,
+)
 async def partial_update_film(film: FILM_BY_SLUG, film_in: FilmSchemaPartialUpdate) -> FilmSchema:
     return film_storage.partial_update(film_schema=film, film_schema_in=film_in)
