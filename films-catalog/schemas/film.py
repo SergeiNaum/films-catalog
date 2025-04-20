@@ -41,7 +41,16 @@ class FilmSchemaPartialUpdate(FilmSchemaBase):
     description: DescriptionStr | None = None
 
 
+class FilmSchemaRead(FilmSchemaBase):
+    """
+    Модель для чтения данных по короткой ссылке.
+    """
+
+    slug: str
+
+
 class FilmSchema(FilmSchemaBase):
     """Модель фильма"""
 
     slug: str
+    price: int = 2000
