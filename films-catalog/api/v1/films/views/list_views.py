@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, BackgroundTasks, status
 from schemas.film import FilmSchema, FilmSchemaCreate, FilmSchemaRead
 
 from api.v1.films.crud import film_storage
@@ -22,5 +22,9 @@ async def get_films() -> list[FilmSchema]:
     response_model=FilmSchemaRead,
     status_code=status.HTTP_201_CREATED,
 )
-async def create_film(film_create: FilmSchemaCreate) -> FilmSchema:
+async def create_film(
+    film_create: FilmSchemaCreate,
+    background_task: BackgroundTasks,
+) -> FilmSchema:
+    background_task.add_task(film_storage.save_state_to_json)
     return await film_storage.create(film_create)
