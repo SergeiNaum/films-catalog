@@ -9,7 +9,7 @@ from schemas.film import (
 )
 
 from api.v1.films.crud import film_storage
-from api.v1.films.dependencies.utils import get_film_by_slug
+from api.v1.films.dependencies.utils import get_film_by_slug, add_background_task
 
 FILM_BY_SLUG = Annotated[FilmSchema, Depends(get_film_by_slug)]
 
@@ -42,10 +42,9 @@ async def get_film_details(film: FILM_BY_SLUG) -> FilmSchema | None:
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_film(
     film: FILM_BY_SLUG,
-    background_task: BackgroundTasks,
+    _=Depends(add_background_task),
 ) -> None:
     await film_storage.delete(film)
-    background_task.add_task(film_storage.save_state_to_json)
 
 
 @router.put(
@@ -55,9 +54,8 @@ async def delete_film(
 async def update_film(
     film: FILM_BY_SLUG,
     film_in: FilmSchemaUpdate,
-    background_task: BackgroundTasks,
+    _=Depends(add_background_task),
 ) -> FilmSchema:
-    background_task.add_task(film_storage.save_state_to_json)
     return await film_storage.update(film_schema=film, film_schema_in=film_in)
 
 
@@ -68,7 +66,6 @@ async def update_film(
 async def partial_update_film(
     film: FILM_BY_SLUG,
     film_in: FilmSchemaPartialUpdate,
-    background_task: BackgroundTasks,
+    _=Depends(add_background_task),
 ) -> FilmSchema:
-    background_task.add_task(film_storage.save_state_to_json)
     return await film_storage.partial_update(film_schema=film, film_schema_in=film_in)
