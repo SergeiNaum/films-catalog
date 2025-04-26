@@ -41,7 +41,7 @@ async def get_film_details(film: FILM_BY_SLUG) -> FilmSchema | None:
 
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_film(film: FILM_BY_SLUG) -> None:
-    film_storage.delete(film)
+    await film_storage.delete(film)
 
 
 @router.put(
@@ -49,7 +49,7 @@ async def delete_film(film: FILM_BY_SLUG) -> None:
     response_model=FilmSchemaRead,
 )
 async def update_film(film: FILM_BY_SLUG, film_in: FilmSchemaUpdate) -> FilmSchema:
-    return film_storage.update(film_schema=film, film_schema_in=film_in)
+    return await film_storage.update(film_schema=film, film_schema_in=film_in)
 
 
 @router.patch(
@@ -57,4 +57,4 @@ async def update_film(film: FILM_BY_SLUG, film_in: FilmSchemaUpdate) -> FilmSche
     response_model=FilmSchemaRead,
 )
 async def partial_update_film(film: FILM_BY_SLUG, film_in: FilmSchemaPartialUpdate) -> FilmSchema:
-    return film_storage.partial_update(film_schema=film, film_schema_in=film_in)
+    return await film_storage.partial_update(film_schema=film, film_schema_in=film_in)

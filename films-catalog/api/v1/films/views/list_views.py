@@ -23,5 +23,4 @@ async def get_films() -> list[FilmSchema]:
     status_code=status.HTTP_201_CREATED,
 )
 async def create_film(film_create: FilmSchemaCreate) -> FilmSchema:
-    obj = film_storage.create(film_create)
-    return obj
+    return await film_storage.create(film_create)
