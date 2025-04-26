@@ -1,14 +1,12 @@
 import logging
 
 import uvicorn
-
 from api import router as api_router
+from app_lifespan import lifespan
 from fastapi import (
     FastAPI,
     Request,
 )
-
-from app_lifespan import lifespan
 
 logger = logging.getLogger(__name__)
 

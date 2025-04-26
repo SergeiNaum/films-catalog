@@ -1,10 +1,9 @@
 import logging
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
-
 from api.v1.films.crud import film_storage
 from core import config
+from fastapi import FastAPI
 
 
 @asynccontextmanager
