@@ -1,4 +1,4 @@
-from fastapi import APIRouter, BackgroundTasks, status, Depends
+from fastapi import APIRouter, status, Depends
 
 from api.v1.films.dependencies.utils import add_background_task
 from schemas.film import FilmSchema, FilmSchemaCreate, FilmSchemaRead
@@ -8,6 +8,7 @@ from api.v1.films.crud import film_storage
 router = APIRouter(
     prefix="/films",
     tags=["Films"],
+    dependencies=[Depends(add_background_task)],
 )
 
 
@@ -26,6 +27,5 @@ async def get_films() -> list[FilmSchema]:
 )
 async def create_film(
     film_create: FilmSchemaCreate,
-    _=Depends(add_background_task),
 ) -> FilmSchema:
     return await film_storage.create(film_create)
