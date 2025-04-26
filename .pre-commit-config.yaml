@@ -1,3 +1,7 @@
+exclude: 'docks|Dockerfile|.git|'
+default_stages: [commit]
+fail_fast: false
+
 repos:
 - repo: local
   hooks:
