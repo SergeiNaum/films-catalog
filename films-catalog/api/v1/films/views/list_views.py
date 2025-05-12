@@ -1,14 +1,25 @@
-from fastapi import APIRouter, status, Depends
-
-from api.v1.films.dependencies.utils import add_background_task
+from fastapi import APIRouter, Depends, status
 from schemas.film import FilmSchema, FilmSchemaCreate, FilmSchemaRead
 
 from api.v1.films.crud import film_storage
+from api.v1.films.dependencies.utils import api_token_or_user_basic_auth_required_for_unsafe_methods
 
 router = APIRouter(
     prefix="/films",
     tags=["Films"],
-    dependencies=[Depends(add_background_task)],
+    dependencies=[Depends(api_token_or_user_basic_auth_required_for_unsafe_methods)],
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "Unauthenticated. Only for unsafe methods.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": "Invalid API token",
+                    },
+                },
+            },
+        },
+    },
 )
 
 
