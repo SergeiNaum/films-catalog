@@ -1,6 +1,8 @@
 import logging
 from typing import Annotated
 
+from api.v1.films.redis_adapter import redis_tokens
+from core import config
 from core.config import (
     API_TOKENS,
     USERS_DB,
@@ -60,8 +62,13 @@ async def add_background_task(
 def validate_api_token(
     api_token: HTTPAuthorizationCredentials,
 ):
-    if api_token.credentials in API_TOKENS:
+    # if api_token.credentials in API_TOKENS:
+    if redis_tokens.sismember(
+            config.REDIS_TOKENS_SET_NAME,
+            api_token.credentials
+    ):
         return
+
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid API token",
@@ -90,11 +97,7 @@ def api_token_required_for_unsafe_methods(
 def validate_basic_auth(
     credentials: HTTPBasicCredentials | None,
 ):
-    if (
-        credentials
-        and credentials.username in USERS_DB
-        and USERS_DB[credentials.username] == credentials.password
-    ):
+    if credentials and credentials.username in USERS_DB and USERS_DB[credentials.username] == credentials.password:
         return
 
     raise HTTPException(
