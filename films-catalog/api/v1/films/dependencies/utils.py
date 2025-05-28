@@ -1,9 +1,6 @@
 import logging
 from typing import Annotated
 
-from core.config import (
-    USERS_DB,
-)
 from fastapi import (
     BackgroundTasks,
     Depends,
@@ -19,8 +16,9 @@ from fastapi.security import (
 )
 from schemas.film import FilmSchema
 
+from api.v1.auth.services.redis_tokens_helper import redis_tokens
+from api.v1.auth.services.redis_users_helper import redis_users
 from api.v1.films.crud import film_storage
-from api.v1.films.redis_adapter import redis_tokens
 
 logger = logging.getLogger(__name__)
 
@@ -93,8 +91,8 @@ def validate_basic_auth(
 ):
     if (
         credentials
-        and credentials.username in USERS_DB
-        and USERS_DB[credentials.username] == credentials.password
+        and credentials.username
+        and redis_users.validate_user_password(credentials.username, credentials.password)
     ):
         return
 
