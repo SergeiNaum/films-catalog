@@ -13,6 +13,14 @@ from api.v1.auth.services.redis_film_storage_helper import redis_films_storage
 logger = logging.getLogger(__name__)
 
 
+class MovieBaseError(Exception):
+    """Base exception for film-catalog CRUD"""
+
+
+class MovieAlreadyExistsError(MovieBaseError):
+    """Raised on FILM created if such slugalredy exists"""
+
+
 class FilmStorage(BaseModel):
     slug_to_film: dict[str, FilmSchema] = Field(default_factory=dict)
 
@@ -25,6 +33,14 @@ class FilmStorage(BaseModel):
     def get_by_slug(self, slug: str) -> FilmSchema | None:
         if data := redis_films_storage.get_film_details(slug):
             return FilmSchema.model_validate_json(data)
+
+    def exists(self, slug: str) -> bool:
+        return redis_films_storage.film_exists(slug)
+
+    async def create_or_raise_if_not_exists(self, film_schema_create: FilmSchemaCreate):
+        if not self.exists(film_schema_create.slug):
+            return await film_storage.create(film_schema_create)
+        raise MovieAlreadyExistsError(film_schema_create.slug)
 
     async def create(self, film_schema_create: FilmSchemaCreate):
         film = FilmSchema(**film_schema_create.model_dump())

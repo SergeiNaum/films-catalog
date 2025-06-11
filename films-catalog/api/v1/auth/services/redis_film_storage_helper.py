@@ -51,6 +51,12 @@ class RedisBookStorageHelper(BaseBookStorageHelper):
             key=slug,
         )
 
+    def film_exists(self, slug: str) -> bool:
+        return self.redis.hexists(
+            name=self.books_hash_name,
+            key=slug,
+        )
+
 
 redis_films_storage = RedisBookStorageHelper(
     host=config.REDIS_HOST,
