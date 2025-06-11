@@ -81,7 +81,9 @@ def validate_basic_auth(
     if (
         credentials
         and credentials.username
-        and redis_users.validate_user_password(credentials.username, credentials.password)
+        and redis_users.validate_user_password(
+            credentials.username, credentials.password
+        )
     ):
         return
 
