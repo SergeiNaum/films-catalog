@@ -40,5 +40,8 @@ class RedisUsersHelper(BaseUsersHelper):
 
 
 redis_users = RedisUsersHelper(
-    host=config.REDIS_HOST, port=config.REDIS_PORT, db=config.REDIS_DB_USERS, users_set_name=config.REDIS_USERS_SET_NAME
+    host=config.REDIS_HOST,
+    port=config.REDIS_PORT,
+    db=config.REDIS_DB_USERS,
+    users_set_name=config.REDIS_USERS_SET_NAME,
 )
