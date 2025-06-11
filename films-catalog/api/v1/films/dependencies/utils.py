@@ -2,7 +2,6 @@ import logging
 from typing import Annotated
 
 from fastapi import (
-    BackgroundTasks,
     Depends,
     HTTPException,
     Request,
@@ -43,16 +42,6 @@ async def get_film_by_slug(slug: str) -> FilmSchema | None:
     if film:
         return film
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Фильм не найден")
-
-
-async def add_background_task(
-    request: Request,
-    background_task: BackgroundTasks,
-):
-    yield
-    if request.method in UNSAFE_METHODS:
-        logger.info("adding background task")
-        background_task.add_task(film_storage.save_state_to_json)
 
 
 def validate_api_token(
