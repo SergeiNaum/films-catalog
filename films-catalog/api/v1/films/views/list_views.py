@@ -37,6 +37,18 @@ async def get_films() -> list[FilmSchema]:
     "/",
     response_model=FilmSchemaRead,
     status_code=status.HTTP_201_CREATED,
+    responses={
+        status.HTTP_409_CONFLICT: {
+            "description": "A film with such slug already exists.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": "film with slug='name' already exists.",
+                    },
+                },
+            },
+        },
+    },
 )
 async def create_film(
     film_create: FilmSchemaCreate,
