@@ -164,6 +164,7 @@ dependencies = [
     { name = "pre-commit" },
     { name = "redis", extra = ["hiredis"] },
     { name = "ruff" },
+    { name = "typer" },
 ]
 
 [package.metadata]
@@ -173,6 +174,7 @@ requires-dist = [
     { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "redis", extras = ["hiredis"], specifier = ">=6.0.0" },
     { name = "ruff", specifier = ">=0.11.6" },
+    { name = "typer", specifier = ">=0.15.2" },
 ]
 
 [[package]]
