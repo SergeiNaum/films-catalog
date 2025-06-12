@@ -3,6 +3,7 @@ __all__ = ("app",)
 from typer import Typer
 
 from .hello import app as hello_app
+from .tokens import app as tokens_app
 
 
 app = Typer(
@@ -19,3 +20,4 @@ def callback():
 
 
 app.add_typer(hello_app)
+app.add_typer(tokens_app)
