@@ -2,6 +2,7 @@ from typing import Annotated
 
 import typer
 from rich import print
+from rich.markdown import Markdown
 
 from api.v1.auth.services.redis_tokens_helper import redis_tokens
 
@@ -25,4 +26,6 @@ def check_token(
 
 @app.command(help="Show all tokens in db")
 def display_tokens() -> None:
-    print(f"tokens: {redis_tokens.show_all_tokens()}")
+    print(Markdown("# Avalable API Tokens"))
+    print(Markdown("\n- ".join([""] + redis_tokens.show_all_tokens())))
+    print()
