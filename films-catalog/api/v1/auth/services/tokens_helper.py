@@ -12,16 +12,18 @@ class BaseTokensHelper(ABC):
     """
 
     @abstractmethod
-    def token_exist(self, token: str) -> bool: ...
+    def token_exist(self, token: str) -> bool:
+        """Return True if token exists in db or False"""
+        ...
 
     @abstractmethod
     def add_token(self, token: str) -> None:
-        "Save token in storage"
+        """Save token in storage"""
         ...
 
     @abstractmethod
     def delete_token(self, token: str) -> None:
-        "Delete token"
+        """Delete token"""
         ...
 
     @classmethod
@@ -32,3 +34,8 @@ class BaseTokensHelper(ABC):
         token = self.generate_token()
         self.add_token(token)
         return token
+
+    @abstractmethod
+    def show_all_tokens(self) -> list[str]:
+        """show all tokens in db"""
+        ...
