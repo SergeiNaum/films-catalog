@@ -25,10 +25,7 @@ class FilmStorage(BaseModel):
     slug_to_film: dict[str, FilmSchema] = Field(default_factory=dict)
 
     def get(self) -> list[FilmSchema]:
-        return [
-            FilmSchema.model_validate_json(data)
-            for data in redis_films_storage.get_all_films()
-        ]
+        return [FilmSchema.model_validate_json(data) for data in redis_films_storage.get_all_films()]
 
     def get_by_slug(self, slug: str) -> FilmSchema | None:
         if data := redis_films_storage.get_film_details(slug):
