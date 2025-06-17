@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 from schemas.film import FilmSchema
 
@@ -20,8 +21,8 @@ class BaseBookStorageHelper(ABC):
     @abstractmethod
     def delete_film(
         self,
-        film_schema: FilmSchema,
+        slug: str,
     ) -> None: ...
 
     @abstractmethod
-    def get_all_films(self) -> None: ...
+    def get_all_films(self) -> list[Any]: ...

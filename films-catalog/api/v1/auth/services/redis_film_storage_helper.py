@@ -1,3 +1,5 @@
+from typing import Any, cast
+
 from core import config
 from redis import Redis
 from schemas.film import FilmSchema
@@ -34,27 +36,33 @@ class RedisBookStorageHelper(BaseBookStorageHelper):
 
     def delete_film(
         self,
-        film_schema: FilmSchema,
+        slug: str,
     ) -> None:
-        self.redis.hdel(self.books_hash_name, film_schema.slug)
+        self.redis.hdel(self.books_hash_name, slug)
 
-    def get_all_films(self) -> list:
-        result = self.redis.hvals(self.books_hash_name)
+    def get_all_films(self) -> list[Any]:
+        result = cast(list[Any], self.redis.hvals(self.books_hash_name))
         return result
 
     def get_film_details(
         self,
         slug: str,
     ) -> str | None:
-        return self.redis.hget(
-            name=self.books_hash_name,
-            key=slug,
+        return cast(
+            str,
+            self.redis.hget(
+                name=self.books_hash_name,
+                key=slug,
+            ),
         )
 
     def film_exists(self, slug: str) -> bool:
-        return self.redis.hexists(
-            name=self.books_hash_name,
-            key=slug,
+        return cast(
+            bool,
+            self.redis.hexists(
+                name=self.books_hash_name,
+                key=slug,
+            ),
         )
 
 

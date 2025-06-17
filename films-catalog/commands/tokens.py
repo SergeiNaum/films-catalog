@@ -2,7 +2,7 @@ from typing import Annotated
 
 import typer
 from api.v1.auth.services.redis_tokens_helper import redis_tokens as tokens
-from rich import print
+from rich import print as rich_print
 from rich.markdown import Markdown
 
 app = typer.Typer(
@@ -18,23 +18,23 @@ def check_token(
     _not = "[red]n[/red][yellow]o[/yellow][green]t[/green]"
     _token = f"[bright_white]{token}[/bright_white]"
     if tokens.token_exist(token):
-        print(f"token: {_token} [bright_green]exists[/bright_green]")
+        rich_print(f"token: {_token} [bright_green]exists[/bright_green]")
     else:
-        print(f"token: {_token} {_not} [bright_red]exist ![/bright_red]")
+        rich_print(f"token: {_token} {_not} [bright_red]exist ![/bright_red]")
 
 
 @app.command(help="Show all tokens in db")
 def display_tokens() -> None:
-    print(Markdown("# Avalable API Tokens"))
-    print(Markdown("\n- ".join([""] + tokens.show_all_tokens())))
-    print()
+    rich_print(Markdown("# Avalable API Tokens"))
+    rich_print(Markdown("\n- ".join([""] + tokens.show_all_tokens())))
+    rich_print()
 
 
 @app.command(help="Generate new token and save in db")
 def create_token() -> None:
-    print("Generating new token and saving into db")
+    rich_print("Generating new token and saving into db")
     token = tokens.generate_and_save_token()
-    print(f"[bright_green]new_token:[/bright_green] {token}")
+    rich_print(f"[bright_green]new_token:[/bright_green] {token}")
 
 
 @app.command(help="Delete token in db")

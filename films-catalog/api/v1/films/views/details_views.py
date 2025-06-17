@@ -41,7 +41,7 @@ async def get_film_details(film: FILM_BY_SLUG) -> FilmSchema | None:
 
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_film(
-    film: FILM_BY_SLUG,
+    film: str,
 ) -> None:
     await film_storage.delete(film)
 

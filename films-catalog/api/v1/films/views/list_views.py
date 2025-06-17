@@ -1,3 +1,5 @@
+from typing import Any
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from schemas.film import FilmSchema, FilmSchemaCreate, FilmSchemaRead
 
@@ -29,7 +31,7 @@ router = APIRouter(
     "/all/",
     response_model=list[FilmSchemaRead],
 )
-async def get_films() -> list[FilmSchema]:
+async def get_films() -> list[FilmSchema] | Any:
     return film_storage.get()
 
 

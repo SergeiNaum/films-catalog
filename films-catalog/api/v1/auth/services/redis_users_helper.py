@@ -1,3 +1,5 @@
+from typing import cast
+
 from core import config
 from redis import Redis
 
@@ -33,7 +35,7 @@ class RedisUsersHelper(BaseUsersHelper):
         :param username: - имя пользователя
         :return: пароль по пользователю, если найден
         """
-        return self.redis.hget(self.users_set_name, username)
+        return cast(str, self.redis.hget(self.users_set_name, username))
 
     def add_user(self, username: str, password: str) -> None:
         self.redis.hset(self.users_set_name, username, password)

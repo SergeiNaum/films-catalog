@@ -46,9 +46,9 @@ async def get_film_by_slug(slug: str) -> FilmSchema | None:
 
 def validate_api_token(
     api_token: HTTPAuthorizationCredentials,
-):
+) -> None:
     if redis_tokens.token_exist(api_token.credentials):
-        return
+        return None
 
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -62,9 +62,9 @@ def api_token_required_for_unsafe_methods(
         HTTPAuthorizationCredentials | None,
         Depends(static_api_token),
     ] = None,
-):
+) -> None | HTTPException:
     if request.method not in UNSAFE_METHODS:
-        return
+        return None
 
     if not api_token:
         raise HTTPException(
@@ -74,16 +74,18 @@ def api_token_required_for_unsafe_methods(
 
     validate_api_token(api_token=api_token)
 
+    return None
+
 
 def validate_basic_auth(
     credentials: HTTPBasicCredentials | None,
-):
+) -> None:
     if (
         credentials
         and credentials.username
         and redis_users.validate_user_password(credentials.username, credentials.password)
     ):
-        return
+        return None
 
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -98,13 +100,12 @@ def user_basic_auth_required_for_unsafe_methods(
         HTTPBasicCredentials | None,
         Depends(user_basic_auth),
     ] = None,
-):
+) -> None:
     if request.method not in UNSAFE_METHODS:
-        return
+        return None
 
-    validate_basic_auth(
-        credentials=credentials,
-    )
+    validate_basic_auth(credentials=credentials)
+    return None
 
 
 def api_token_or_user_basic_auth_required_for_unsafe_methods(
@@ -117,9 +118,9 @@ def api_token_or_user_basic_auth_required_for_unsafe_methods(
         HTTPBasicCredentials | None,
         Depends(user_basic_auth),
     ] = None,
-):
+) -> None:
     if request.method not in UNSAFE_METHODS:
-        return
+        return None
 
     if credentials:
         return validate_basic_auth(credentials=credentials)

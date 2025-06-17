@@ -3,6 +3,14 @@ from typing import Annotated
 from annotated_types import Len, MaxLen
 from pydantic import BaseModel
 
+__all__ = (
+    "FilmSchemaCreate",
+    "FilmSchemaUpdate",
+    "FilmSchemaPartialUpdate",
+    "FilmSchemaRead",
+    "FilmSchema",
+)
+
 DescriptionStr = Annotated[str, MaxLen(200)]
 
 
@@ -29,7 +37,7 @@ class FilmSchemaUpdate(FilmSchemaBase):
     description: DescriptionStr
 
 
-class FilmSchemaPartialUpdate(FilmSchemaBase):
+class FilmSchemaPartialUpdate(BaseModel):
     """
     Модель для частичного обновления информации
     о фильме
