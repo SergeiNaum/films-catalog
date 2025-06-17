@@ -13,6 +13,14 @@ dependencies = [
     "typer>=0.15.2",
 ]
 
+[dependency-groups]
+dev = [
+    "mypy>=1.16.1",
+]
+
+[tool.mypy]
+strict = true
+
 [tool.ruff]
 # Поддерживаемые версии Python
 target-version = "py313"
@@ -38,7 +46,6 @@ lint.select = [
     "UP",  # pyupgrade
     "S",   # flake8-bandit
     "A",   # flake8-builtins
-#    "RUF", # Ruff-specific rules
 ]
 # Исключить определенные файлы/директории
 exclude = [
