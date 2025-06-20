@@ -25,9 +25,13 @@ plugins = ["pydantic.mypy"]
 [tool.ruff]
 # Поддерживаемые версии Python
 target-version = "py313"
+src = [
+    "url-shortener",
+]
 
 # Максимальная длина строки
 line-length = 120
+indent-width = 4
 
 # Включаемые правила
 lint.select = [
@@ -50,16 +54,42 @@ lint.select = [
 ]
 # Исключить определенные файлы/директории
 exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
     ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
     ".venv",
-    "venv",
-    "env",
-    "__pycache__",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
     "build",
     "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    ".venv",
 ]
+
+
+
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]  # Игнорировать неиспользуемые импорты в init файлах
+"**/test_*.py" = [
+    "S311", # S311 Standard pseudo-random generators are not suitable for cryptographic purposes
+]
 
 [tool.ruff.lint.isort]
 known-first-party = ["films-catalog"]
