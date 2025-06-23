@@ -2,10 +2,10 @@ import logging
 
 import uvicorn
 from api import router as api_router
+from api.main_views import router as main_router
 from app_lifespan import lifespan
 from fastapi import (
     FastAPI,
-    Request,
 )
 
 logger = logging.getLogger(__name__)
@@ -15,14 +15,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 app.include_router(api_router)
-
-
-@app.get("/")
-async def hello_world(request: Request) -> dict[str, str]:
-    docs_url = request.url.replace(path="/docs", query="")
-    return {
-        "docs": str(docs_url),
-    }
+app.include_router(main_router)
 
 
 if __name__ == "__main__":
