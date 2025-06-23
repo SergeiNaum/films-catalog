@@ -92,7 +92,9 @@ exclude = [
 "__init__.py" = ["F401"]  # Игнорировать неиспользуемые импорты в init файлах
 "**/test_*.py" = [
     "S311", # S311 Standard pseudo-random generators are not suitable for cryptographic purposes
+    "S101", # Use of assert detected
 ]
+
 
 [tool.ruff.lint.isort]
 known-first-party = ["films-catalog"]
