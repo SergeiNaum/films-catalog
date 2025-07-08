@@ -46,12 +46,16 @@ class TestCreateInvalid:
         data["slug"] = slug
         return data, err_type
 
-    def test_invalid_slug(self, movie_create_values: FilmSchemaCreate, auth_client: TestClient) -> None:
+    def test_invalid_slug(
+        self, movie_create_values: FilmSchemaCreate, auth_client: TestClient
+    ) -> None:
         url = app.url_path_for("create_film")
         create_data, expected_error_type = movie_create_values
         response = auth_client.post(url, json=create_data)
 
-        assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY, response.text
+        assert (
+            response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+        ), response.text
         error_detail = response.json()["detail"][0]
         assert error_detail["type"] == expected_error_type
 

@@ -34,6 +34,8 @@ async def film() -> AsyncGenerator[FilmSchema]:
 @pytest.mark.asyncio
 async def test_create_or_rise_if_exists(film: FilmSchema) -> None:
     film_schema_create = FilmSchemaCreate(**film.model_dump())
-    with pytest.raises(MovieAlreadyExistsError, match=film_schema_create.slug) as exc_info:
+    with pytest.raises(
+        MovieAlreadyExistsError, match=film_schema_create.slug
+    ) as exc_info:
         await film_storage.create_or_raise_if_not_exists(film_schema_create)
     assert exc_info.value.args[0] == film_schema_create.slug

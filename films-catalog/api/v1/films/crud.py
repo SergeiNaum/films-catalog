@@ -26,7 +26,10 @@ class FilmStorage(BaseModel):
     slug_to_film: dict[str, FilmSchema] = Field(default_factory=dict)
 
     def get(self) -> list[FilmSchema] | list[Any]:
-        return [FilmSchema.model_validate_json(data) for data in redis_films_storage.get_all_films() or []]
+        return [
+            FilmSchema.model_validate_json(data)
+            for data in redis_films_storage.get_all_films() or []
+        ]
 
     def get_by_slug(self, slug: str) -> FilmSchema | None:
         if data := redis_films_storage.get_film_details(slug):
@@ -36,7 +39,9 @@ class FilmStorage(BaseModel):
     def exists(self, slug: str) -> bool:
         return bool(redis_films_storage.film_exists(slug))
 
-    async def create_or_raise_if_not_exists(self, film_schema_create: FilmSchemaCreate) -> FilmSchema:
+    async def create_or_raise_if_not_exists(
+        self, film_schema_create: FilmSchemaCreate
+    ) -> FilmSchema:
         if not self.exists(film_schema_create.slug):
             return await film_storage.create(film_schema_create)
         raise MovieAlreadyExistsError(film_schema_create.slug)
