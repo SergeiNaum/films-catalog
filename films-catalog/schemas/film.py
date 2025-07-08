@@ -26,7 +26,7 @@ class FilmSchemaCreate(FilmSchemaBase):
     Модель для создания фильма
     """
 
-    slug: Annotated[str, Len(3, 100)]
+    slug: Annotated[str, Len(3, 12)]
 
 
 class FilmSchemaUpdate(FilmSchemaBase):
