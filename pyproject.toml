@@ -105,3 +105,8 @@ quote-style = "double"
 # Отступы - 4 пробела
 indent-style = "space"
 line-ending = "auto"
+
+
+# uv settings
+[tool.uv]
+required-version = "~=0.7.19"
