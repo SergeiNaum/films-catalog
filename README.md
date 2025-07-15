@@ -1,5 +1,5 @@
 # Films Catalog
-
+[![Python checks](https://github.com/SergeiNaum/films-catalog/actions/workflows/python-checks.yaml/badge.svg)](https://github.com/SergeiNaum/films-catalog/actions/workflows/python-checks.yaml)
 ## DEVELOP
 
 ### Setup:
