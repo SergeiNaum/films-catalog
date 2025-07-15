@@ -3,7 +3,6 @@ import string
 from typing import Any
 
 import pytest
-import pytest_asyncio
 from _pytest.fixtures import SubRequest
 from fastapi import status
 from fastapi.testclient import TestClient
