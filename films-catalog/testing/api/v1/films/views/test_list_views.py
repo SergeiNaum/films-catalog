@@ -3,7 +3,6 @@ import string
 from typing import Any
 
 import pytest
-import pytest_asyncio
 from _pytest.fixtures import SubRequest
 from fastapi import status
 from fastapi.testclient import TestClient
@@ -33,7 +32,7 @@ def test_create_film(auth_client: TestClient) -> None:
 
 
 class TestCreateInvalid:
-    @pytest_asyncio.fixture(
+    @pytest.fixture(
         params=[
             pytest.param(("a", "string_too_short"), id="too-short-slug"),
             pytest.param(("a" * 13, "string_too_long"), id="to-long-slug"),
